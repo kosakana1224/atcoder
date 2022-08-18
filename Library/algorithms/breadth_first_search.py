@@ -19,3 +19,4 @@ def breadth_first_search(graph: Graph):
             dist[next_node] = dist[v] + 1
             queue.append(next_node)
     return dist
+

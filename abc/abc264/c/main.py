@@ -17,24 +17,30 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 """
-bit全探索はN=23まで間に合いますよ???????
+pypyだと通るやつ
+bit全探索はN=23がギリギリだということを覚えておこう:(
 """
-#--------------------------------------------------------------
-_INPUT = """\
-3 3
-1 1 1
-1 1 1
-1 1 1
-1 1
-1
-"""
-sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 H1,W1 = MAP()
 A = [LIST() for _ in range(H1)]
 H2,W2 = MAP()
 B = [LIST() for _ in range(H2)]
-print()
-
-
-
+flag = False
+for h in product([0,1],repeat=H1):
+    for w in product([0,1],repeat=W1):
+        tmp = []
+        for i in range(H1):
+            if h[i]==1:
+                tmp2 = []
+                for j in range(W1):
+                    if w[j]==1:
+                        tmp2.append(A[i][j])
+                if len(tmp2)!=0:
+                    tmp.append(tmp2)
+        if tmp==B:
+            flag = True
+if flag:
+    print("Yes")
+else:
+    print("No")
+        
