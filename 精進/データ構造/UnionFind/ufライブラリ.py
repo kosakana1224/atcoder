@@ -36,8 +36,7 @@ class UnionFind:
         return -self.parent[self.root(x)]
 
     def all_sizes(self) -> List[int]:
-        """全連結成分のサイズのリストを取得 O(N)
-        """
+        """全連結成分のサイズのリストを取得 O(N)"""
         sizes = []
         for i in range(self.n):
             size = self.parent[i]
