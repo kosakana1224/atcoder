@@ -1,4 +1,5 @@
 import io
+from re import T
 import sys
 #sys.setrecursionlimit(10**7)
 from collections import deque,defaultdict
@@ -17,29 +18,25 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-1 2 3 4
-4 5 6
-
+2
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
-N-x = 998244353m
-998244353 > x = N - 998244353m >= 0
-
+ネットの記事参考にして解けた。
 """
 #--------------------------------------------------------------
 N = INT()
-m = N//998244353
-x = N - (998244353*m)
-if 0<=x<998244353:
-    print(x)
-    exit()
-
-m = (N - 998244353)//998244353
-x = N - (998244353*m)
-if 0<=x<998244353:
-    print(x)
-    exit()
+dp = [0]*(N+1)
+dp[1] = 3.5
+for i in range(1,N):
+    t = int(dp[i])
+    tmp = 0
+    cnt = 0
+    while t<6:
+        cnt += 1
+        t += 1
+        tmp += t  
+    dp[i+1] = (tmp/cnt)*(cnt/6)+((6-cnt)/6)*dp[i]
+print(dp[N])
     
-
