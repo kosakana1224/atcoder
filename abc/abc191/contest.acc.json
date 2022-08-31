@@ -21,7 +21,12 @@
       "id": "abc191_c",
       "label": "C",
       "title": "Digital Graffiti",
-      "url": "https://atcoder.jp/contests/abc191/tasks/abc191_c"
+      "url": "https://atcoder.jp/contests/abc191/tasks/abc191_c",
+      "directory": {
+        "path": "c",
+        "testdir": "test",
+        "submit": "main.py"
+      }
     },
     {
       "id": "abc191_d",

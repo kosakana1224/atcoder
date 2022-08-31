@@ -35,6 +35,7 @@ def rle_num(s): #ランレングス圧縮したときの数値部分のリスト
     else:
         block.append(num)
     return block
+
 N = INT()
 S = input()
 q = deque()
