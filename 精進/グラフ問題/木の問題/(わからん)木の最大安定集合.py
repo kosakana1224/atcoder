@@ -17,25 +17,27 @@ dirc2 = [(0,1),(0,-1),(1,0),(-1,0),(-1,-1),(-1,1),(1,-1),(1,1)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-15
-0 1
-0 6
-0 14
-1 2
-1 4
-3 5
-3 6
-3 7
+10
+4 6
+3 1
+2 4
+5 6
 6 9
-8 10
-8 14
-9 12
-9 13
-11 14
+0 4
+7 3
+6 8
+4 3
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
+<ポイント>
+・木の最大安定集合
+安定集合：どの2頂点も辺で結ばれていないようなもの
+→葉から考えていく考察によってうまくいく
+
+
+・制約を見よう：与えられるグラフは木である
 
 """
 #--------------------------------------------------------------
@@ -46,18 +48,22 @@ for _ in range(N-1):
     G[a].append(b)
     G[b].append(a)
     
+color = [-1]*N
+color[0] = 0
 que = deque([0])
-dist = [-1]*N
-dist[0] = 0
-ans = INF
-
 while que:
     now = que.popleft()
-    if len(G[now])==0:
-        ans = min(ans,dist[now])
     for nxt in G[now]:
-        if dist[nxt]==-1:
-            dist[nxt] = dist[now] + 1
+        if color[nxt]==-1:
             que.append(nxt)
-
-print(ans)
+            color[nxt] = 1 if color[now]==0 else 0
+            
+white = 0
+black = 0
+print(color)
+for a in color:
+    if a==0:
+        white += 1
+    else:
+        black += 1
+print(max(white,black))
