@@ -17,13 +17,21 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
+6
+3
+1
+4
+1
+5
+9
+
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
-・毎回ソートすると、制約オーバー
-・ソート後の先頭の要素は最小値、ソート時点の配列の大きさの範囲までは昇順であることが保証できる
+・好きな順に一列に並べる時、隣ある要素の差の合計の最大値を求める
+・ソートして端と端の値をとってみる(エスパー)
 
 <キーワード>
 
@@ -31,18 +39,24 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
-Q = INT()
-A = []
-for _ in range(Q):
-    query = LIST()
-    if query[0]==1:
-        #Aの最後尾にxを追加する
-        x = query[1]
-        
-    elif query[0]==2:
-        pass
-        #Aの最初の要素を出力し、その後その要素を削除する
+N = INT()
+A = [INT() for _ in range(N)]
+ans = 0
+Asort = deque(sorted(A))
+Asort2 = deque(sorted(A))
+newA = []
+newA2 = []
+for i in range(N):
+    if i%2==0:
+        newA.append(Asort.popleft())
+        newA2.append(Asort2.pop())
     else:
-        pass
-        #Aを昇順にソートする
-        
+        newA.append(Asort.pop())
+        newA2.append(Asort2.popleft())
+ans1 = 0
+ans2 = 0
+for i in range(N-1):
+    ans1 += abs(newA[i+1]-newA[i])
+    ans2 += abs(newA2[i+1]-newA2[i])
+print(ans1,ans2)
+    

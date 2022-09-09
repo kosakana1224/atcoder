@@ -48,7 +48,7 @@ def yakusu(N):
     return res
     
 K = INT()
-Klist = calc_divisors(K)
+Klist = yakusu(K)
 print(Klist)
 k = len(Klist)
 ans = 0
