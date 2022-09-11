@@ -18,30 +18,26 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #--------------------------------------------------------------
 _INPUT = """\
 5 4
-1 2 2000
-2 3 2004
-3 4 1999
-4 5 2001
-3
-1 2000
-1 1999
-3 1995
+2 2 2 2 2
+1 1 2
+1 1 3
+1 2 3
+2 2 2
+
 
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
-・毎回bfsかdfsして、個数を数える方法だと部分点はとれる
-・UnionFindは使いそうだけどよく思いつかない
+・dict[(uf.root(i),uf2.root(i))]の連想配列で同じペアがいくつ出てくるかを管理する
+パターンのやつ
+
+・xに合流している生徒のうち、クラスyに属している生徒の数
 
 <キーワード>
-・クエリ先読み
-・UnionFind
 
 <ポイント>
-・造られた年、つまり重みがある値wjより大きいもののみを通る
-→大きい順に繋いで行ってその順にクエリを先読みして同時に処理し、ufで連結成分の個数を求める
 
 """
 #--------------------------------------------------------------
@@ -104,35 +100,24 @@ class UnionFind:
     def group_count(self) -> int:
         """連結成分の数を取得 O(1)"""
         return self.__group_count  
-    
-N,M = MAP()
-data = []
-for _ in range(M):
-    a,b,y = MAP()
-    a,b = a-1,b-1
-    #扱うデータがグラフの時、(造られた年、頂点a,b,_)
-    data.append([y,a,b,0])
-    
+N,Q = MAP()
+C = LIST()
 uf = UnionFind(N)
-Q = INT()
-for i in range(Q):
-    #都市uに住んでてwより大きい都市で繋がっている数
-    u,w = MAP()
-    #(判定する年、判定用フラグ、連結成分を調べるのに必要な頂点,クエリのindex)
-    data.append([w,N+1,u-1,i])
-    
-data.sort(reverse=True)
-ans = [0]*Q
-
-#年順に処理する
-for y,a,b,i in data:
-    if a==N+1:#クエリ
-        ans[i] = uf.size(b)
-    else:#グラフ
+classes = defaultdict(list)
+for i in range(N):
+    classes[C[i]].append(i)
+d = defaultdict(int)
+for _ in range(Q):
+    query = LIST()
+    if query[0]==1:
+        a,b = query[1],query[2]
+        a,b = a-1,b-1
         uf.unite(a,b)
-        
-for a in ans:
-    print(a)
-
-    
-    
+        d[(uf.root(a)),C[a]] += 1
+        d[(uf.root(b)),C[b]] += 1
+    else:
+        x,y = query[1],query[2]
+        x -= 1
+        print(d[uf.root(x),y])
+print(uf.groups())
+print(d)

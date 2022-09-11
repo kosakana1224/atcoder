@@ -17,32 +17,34 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-5 4
-1 2 2000
-2 3 2004
-3 4 1999
-4 5 2001
-3
-1 2000
-1 1999
-3 1995
-
+4 3 1
+1 2
+2 3
+3 4
+2 3
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
-・毎回bfsかdfsして、個数を数える方法だと部分点はとれる
-・UnionFindは使いそうだけどよく思いつかない
+・連結している数と見たらUnionFindを使いたくなる
+・道路、鉄道それぞれUnionFindしてそれぞれのグループメンバーを集合の&とれば
+一応答えを求めることができるが、各クエリでO(N)かかるので当然だめ。
+・色々工夫しようとしたが思いつかず、diff見たらほぼ黄色やないかーーーい
+(FIN)
 
 <キーワード>
-・クエリ先読み
-・UnionFind
+・unionfind + 連想配列
+・iとjが鉄道・道路の両方で連結しているをどのようにunionfind等で実装すると 
+計算量を改善することができるのか
 
 <ポイント>
-・造られた年、つまり重みがある値wjより大きいもののみを通る
-→大きい順に繋いで行ってその順にクエリを先読みして同時に処理し、ufで連結成分の個数を求める
-
+・意外とやろうとしていたことに近かった→じゃあやれよ定期
+・同じグループか違うグループかはunionfindの根で判定することができる
+i と j が鉄道・道路の両方で連結している ⇔ ar[i] = ar[j] ∧ br[i] = br[j] 
+・set(uf.member(i)) & set(uf2.member(i))のlenを求めていたが、
+dict[(uf.root(i),uf2.root(i))]の連想配列で同じペアがいくつ出てくるかを管理することで
+解くことができる
 """
 #--------------------------------------------------------------
 from typing import List
@@ -105,34 +107,25 @@ class UnionFind:
         """連結成分の数を取得 O(1)"""
         return self.__group_count  
     
-N,M = MAP()
-data = []
-for _ in range(M):
-    a,b,y = MAP()
+N,K,L = MAP()
+douro = UnionFind(N)
+tetudou = UnionFind(N)
+for _ in range(K):
+    a,b = MAP()
     a,b = a-1,b-1
-    #扱うデータがグラフの時、(造られた年、頂点a,b,_)
-    data.append([y,a,b,0])
+    douro.unite(a,b)
+for _ in range(L):
+    a,b = MAP()
+    a,b = a-1,b-1
+    tetudou.unite(a,b)
     
-uf = UnionFind(N)
-Q = INT()
-for i in range(Q):
-    #都市uに住んでてwより大きい都市で繋がっている数
-    u,w = MAP()
-    #(判定する年、判定用フラグ、連結成分を調べるのに必要な頂点,クエリのindex)
-    data.append([w,N+1,u-1,i])
-    
-data.sort(reverse=True)
-ans = [0]*Q
+d = defaultdict(list)
+for i in range(N):
+    d[(douro.root(i),tetudou.root(i))].append(i)
+ans = []
+for i in range(N):
+    print((len(d[(douro.root(i),tetudou.root(i))])),end=" ")
 
-#年順に処理する
-for y,a,b,i in data:
-    if a==N+1:#クエリ
-        ans[i] = uf.size(b)
-    else:#グラフ
-        uf.unite(a,b)
-        
-for a in ans:
-    print(a)
 
-    
-    
+
+
