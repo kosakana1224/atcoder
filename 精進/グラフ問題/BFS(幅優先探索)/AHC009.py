@@ -145,8 +145,6 @@ for i in range(len(tmp)):
 ans = ans[:50]
 print(ans)
 #経路復元
-
-
 for i in range(20):
     for j in range(20):
         print(field[i][j],end='')
