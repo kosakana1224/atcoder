@@ -66,6 +66,7 @@ def topologicalsort(N, G):
                 heapq.heappush(queue, u2) #u2はuの候補となる
     return S   
 S = topologicalsort(N,G)  
+print(S)
 #print(S)       
 if len(S)==N:
     print('Yes')
