@@ -16,25 +16,35 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 10**9+7
 #mod = 998244353
 #--------------------------------------------------------------
-_INPUT = """\
-5
-46 80 11 77 46
-
-"""
-sys.stdin = io.StringIO(_INPUT)
-#--------------------------------------------------------------
 """
 <考察>
-・座標圧縮
 
 <キーワード>
+・DP復元について
 
 <ポイント>
-・座標圧縮のやり方について
-setに入れてソートしてから要素が配列の何番目にあるのかを辞書に登録すればよい
+・DPは1indexにしましょう。
+・DPの復元はゴールから逆向きに。
 """
 #--------------------------------------------------------------
 N = INT()
-A = LIST()
-d = {v:i+1 for i,v in enumerate(sorted(set(A)))}
-print(*list(map(lambda v:d[v],A)))
+A = [0]+[0]+LIST()
+B = [0]+[0]+[0]+LIST()
+dp = [INF]*(N+2)
+dp[1] = 0
+dp[2] = A[2]
+for i in range(3,N+1):
+    dp[i] = min(dp[i],dp[i-1]+A[i],dp[i-2]+B[i])
+now = N
+ans = [N]
+while now!=1:
+    if dp[now-1]+A[now] ==dp[now]:
+        now -= 1
+        ans.append(now)
+    elif dp[now-2]+B[now] == dp[now]:
+        now -= 2
+        ans.append(now)
+ans.reverse()
+print(len(ans))
+print(*ans)
+        

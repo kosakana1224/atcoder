@@ -16,34 +16,39 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 10**9+7
 #mod = 998244353
 #--------------------------------------------------------------
+_INPUT = """\
+10
+3 9 6 1 7 2 8 0 5 4
+
+"""
+sys.stdin = io.StringIO(_INPUT)
+#--------------------------------------------------------------
 """
 <考察>
 
 <キーワード>
-・DP復元について
+・視点を変える
 
 <ポイント>
-
+・人ではなく料理に着目する
+・何回回せば喜ぶのかを求めて、その前後回数,回した時も喜ぶ☜ここ重要!!!!!
 """
 #--------------------------------------------------------------
 N = INT()
-A = [0]+LIST()
-B = [0]+[0]+LIST()
-dp = [INF]*(N)
-dp[1] = A[1]
-dp[2] = min(dp[1]+A[2],B[2])
-for i in range(3,N):
-    dp[i] = min(dp[i],dp[i-1]+A[i],dp[i-2]+B[i])
-now = N-1
-ans = [N]
-while not (now==1 or now==2):
-    if dp[now]==dp[now-2]+B[now]:
-        now -= 2
-    elif dp[now]==dp[now-1]+A[now]:
-        now -= 1
-    ans.append(now+1)
-ans.append(1)
-ans.reverse()
-ans = list(set(ans))
-print(len(ans))
-print(*ans)
+P = LIST()
+#i番目の料理が人qiの前においてある
+q = [0]*N
+for i in range(N):
+    q[P[i]] = i
+
+#i回回した時に喜ぶ人の数
+t = [0]*N
+for i in range(N):#i番目の料理について
+    k = (i-q[i])%N #何回回せば喜ぶのか(目の前にくるのか)
+    t[k] += 1
+    t[(k-1)%N] += 1
+    t[(k+1)%N] += 1
+print(max(t))
+    
+    
+    

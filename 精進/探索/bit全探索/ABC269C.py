@@ -17,24 +17,41 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-5
-46 80 11 77 46
-
+11
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
-・座標圧縮
+
 
 <キーワード>
 
 <ポイント>
-・座標圧縮のやり方について
-setに入れてソートしてから要素が配列の何番目にあるのかを辞書に登録すればよい
+
 """
 #--------------------------------------------------------------
 N = INT()
-A = LIST()
-d = {v:i+1 for i,v in enumerate(sorted(set(A)))}
-print(*list(map(lambda v:d[v],A)))
+N2 = format(N,"b")
+ans = []
+#何番目に1があるか
+#左からn個目の1は何番目か
+d = defaultdict(int)
+tp = 0
+for i in range(len(str(N2))):
+    if str(N2)[len(str(N2))-i-1]=="1":
+        d[tp] = len(str(N2))-i-1
+        tp += 1
+cnt = len(d)
+for bits in product([0,1],repeat=cnt):#正直者だと仮定する
+    tmp = ["0"]*(len(str(N2)))
+    for idx,b in enumerate(bits):
+        if b==1:
+            tmp[d[idx]] = "1"
+    a = "".join(tmp)
+    ans.append(int(a,2))
+ans.sort()
+for i in ans:
+    print(i)
+            
+    

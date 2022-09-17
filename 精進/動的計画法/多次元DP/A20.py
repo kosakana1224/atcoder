@@ -17,24 +17,40 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-5
-46 80 11 77 46
-
+tokyo
+kyoto
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
-・座標圧縮
-
+・dp[s][t]:Sがs文字目でTがt文字目の時の部分列の最大の長さ
+・所謂、最長共通部分列ってやつ
+ヒント
+・もらうDPで考えた方楽。
 <キーワード>
+・LCS
 
 <ポイント>
-・座標圧縮のやり方について
-setに入れてソートしてから要素が配列の何番目にあるのかを辞書に登録すればよい
+・s文字目とt文字目が同じ時は、dp[s][t] = dp[s-1][t-1]+1が成り立つ
 """
 #--------------------------------------------------------------
-N = INT()
-A = LIST()
-d = {v:i+1 for i,v in enumerate(sorted(set(A)))}
-print(*list(map(lambda v:d[v],A)))
+S = input()
+s = len(S)
+T = input()
+t = len(T)
+dp = [[-INF]*(s+1) for _ in range(t+1)]
+for sw in range(s+1):
+    dp[0][sw] = 0
+for th in range(t+1):
+    dp[th][0] = 0
+for sw in range(1,s+1):
+    for th in range(1,t+1):
+        if S[sw-1]==T[th-1]:
+            dp[th][sw] = max(dp[th-1][sw-1]+1,dp[th-1][sw],dp[th][sw-1])
+        else:
+            dp[th][sw] = max(dp[th-1][sw],dp[th][sw-1])
+print(dp[t][s])
+        
+
+
