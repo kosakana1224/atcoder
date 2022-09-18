@@ -47,33 +47,37 @@ okx = N+1
 ngy = 0
 oky = N+1
 for _ in range(20):
-    if not abs(ngx-okx)>1 and not abs(ngy-oky)>1:
+    if not abs(okx-ngx)>1 and not abs(oky-ngy)>1:
         print(f"! {okx} {oky}")
         exit()
-    elif abs(ngx-okx)>1 and not abs(ngy-oky)>1:
-        mid = (ngx + okx)//2
+    #xの区間が求まっていない場合
+    elif abs(okx-ngx)>1 and not abs(oky-ngy)>1:
+        mid = (okx + ngx)//2
         print(f"? {1} {N} {1} {mid}")
-        cnt = INT()
+        cnt = q(1,N,1,mid)
         if mid==cnt:#1~midの間になかったら
-            okx = mid
-        else:
             ngx = mid
-    elif not abs(ngx-okx)>1 and abs(ngy-oky)>1:
+        else:
+            okx = mid
+    #yの区間が求まっていない場合
+    elif not abs(okx-ngx)>1 and abs(oky-ngy)>1:
         mid = (ngy + oky)//2
-        cnt = INT()
+        cnt = q(1,mid,1,N)
         print(f"? {1} {mid} {1} {N}")
         if mid==cnt:#1~midの間になかったら
-            oky = mid
-        else:
             ngy = mid
-    else:
-        mid = (ngx + okx)//2
-        print(f"? {1} {N} {1} {mid}")
-        cnt = INT()
-        if mid==cnt:#1~midの間になかったら
-            okx = mid
         else:
+            oky = mid
+    #両方の区間が求まっていない場合
+    else:
+        mid = (okx + ngx)//2
+        print(f"? {1} {N} {1} {mid}")
+        cnt = q(1,N,1,mid)
+        if mid==cnt:#1~midの間になかったら
             ngx = mid
+        else:
+            okx = mid
+
         
         
     

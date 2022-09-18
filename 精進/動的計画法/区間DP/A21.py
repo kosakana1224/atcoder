@@ -51,6 +51,9 @@ sys.stdin = io.StringIO(_INPUT)
 2.初期値について
 -dp[l][r]は区間[l,r]が残っている時の得点と考えると、
 dp[1][N]:区間1~N(つまり全て)が残っている時の得点は当然0
+↓
+-dp[l][r]:区間1~Nを取り除いた時の得点
+(このようにしないとメモ化再帰で求めることができない)
 
 3.dpの遷移について
 -遷移の書き方について、注意が必要。というのも遷移に少しクセがあるからである
@@ -62,8 +65,9 @@ dp[1][N]:区間1~N(つまり全て)が残っている時の得点は当然0
 ??????
 
 -dp[l][r]:l~r取り除いた時の最大値として考えるみるのは?
-
 dp[l][r] = dp[l+1][r]+PA[l][1],dp[l][r-1]+PA[r][1]
+
+AC!
 
 """
 #--------------------------------------------------------------
@@ -75,25 +79,24 @@ for _ in range(N):
 dp = [[-INF]*(N+1) for _ in range(N+1)]
 for i in range(1,N+1):
     dp[i][i] = 0
-    
+
+#区間l~rを取り除いた時の最大値
 def memo(l,r):
-    print(dp)
     if dp[l][r]!=-INF:
         return dp[l][r]
     if l==r:
         return 0
-    if not (l+1<=PA[l][0]<=r):
+    if (l+1<=PA[l][0]<=r):
         dp[l][r] = max(dp[l][r],memo(l+1,r)+PA[l][1])
     else:
         dp[l][r] = max(dp[l][r],memo(l+1,r)+0)
-    if not (l<=PA[r][0]<=r-1):
+    if (l<=PA[r][0]<=r-1):
         dp[l][r] = max(dp[l][r],memo(l,r-1)+PA[r][1])
     else:
         dp[l][r] = max(dp[l][r],memo(l,r-1)+0)
     return dp[l][r]
 ans = memo(1,N)
 print(ans)
-print(dp)
         
 
         
