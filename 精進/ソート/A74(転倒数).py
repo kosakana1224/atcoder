@@ -86,9 +86,3 @@ for w in range(N):
             Wlist.append(grid[h][w])
 print(tentousu(Hlist)+tentousu(Wlist))
 
-
-
-    
-
-
-        
