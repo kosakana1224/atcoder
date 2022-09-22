@@ -32,8 +32,12 @@ sys.stdin = io.StringIO(_INPUT)
 <考察>
 
 <キーワード>
+・山登り法
 
 <ポイント>
+・貪欲法などで作った初期解を洗練していく手法
+・ある初期解を少しずつ変化させる
+1.初期状態　2.状態遷移 3.スコア計算の関数を3つのパーツが必要
 
 """
 #--------------------------------------------------------------
@@ -54,9 +58,7 @@ def score():
     for i in range(N):
         Scoresum += distance(P[i],P[i+1])
     return Scoresum
-#探索する順番をswapする
-def swap(l,r):
-    P[l],P[r] = P[r],P[l]
+
 Currentscore = score()
 epoch = 20000
 for _ in range(epoch):
@@ -64,15 +66,16 @@ for _ in range(epoch):
     l = random.randint(1,N-1)
     r = random.randint(1,N-1)
     if l>r:
-        swap(l,r)
-    P[l:r+1].reverse()
+        l,r = r,l
+    P[l:r+1] = reversed(P[l:r+1])
     Newscore = score()
     if Currentscore >= Newscore:
         Currentscore = Newscore
     else:
-        P[l:r+1].reverse()
+        P[l:r+1] = reversed(P[l:r+1])
 for p in P:
     print(p+1)
+print(score())
 
 
         

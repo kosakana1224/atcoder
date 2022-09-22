@@ -34,12 +34,14 @@ new_score = score - 部分スコアの変更した部分 + 新たに計算した
 ・時間管理は毎回やらなくても良い
 """
 #--------------------------------------------------------------
+"""
 #山登り法1
 def scoring(state):
     score = 0
     return score
 state = 初期状態
 score = 初期状態のスコアを計算
+
 while now_time < limit_time:
     new_state = 近傍を取る
     new_score = scoring(new_state)
@@ -74,6 +76,7 @@ while 経過時間 < 制限時間:
         t = 0
         経過時間を計測
         # その他頻繁に行う必要のない処理があれば一緒にやる
+"""
 
 
 
