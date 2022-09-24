@@ -17,7 +17,7 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-5
+10 -10 1
 
 """
 sys.stdin = io.StringIO(_INPUT)
@@ -31,12 +31,28 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
-N = INT()
-ans = []
-for bits in product([4,7],repeat=10):
-    bits = list(bits)
-    for i in range(10):
-        bits[i] = str(bits[i])
-    tmp = "".join(bits)
-    ans.append(int(tmp))
-print(ans[N-1])
+X,Y,Z = MAP()
+if 0<X<Y:
+    print(X)
+elif 0<Y<X:
+    if 0<Z<Y:
+        print(X)
+    elif Z<0:
+        print(2*abs(Z)+X)
+    else:
+        print(-1)
+elif Y<0<X:
+    print(X)
+elif X<0<Y:
+    print(-X)
+elif Y<X<0:
+    print(-X)
+elif X<Y<0:
+    if Y<Z<0:
+        print(-X)
+    elif Z>0:
+        print(2*abs(Z)+abs(X))
+    else:
+        print(-1)
+else:
+    print(-1)

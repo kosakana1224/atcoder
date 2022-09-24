@@ -29,3 +29,7 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
+N = INT()
+A = LIST()
+A.sort(reverse=True)
+print(A[0]+A[1])

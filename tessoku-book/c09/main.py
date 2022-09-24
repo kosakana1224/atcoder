@@ -29,3 +29,9 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
+N = INT()
+A = LIST()
+dp = [[0 for _ in range(2)] for _ in range(N+1)]
+dp[1][0] = A[0]
+for i in range(1,N+1):
+    dp[i][0] = dp[i-1][1]+A[i-1],dp[i-1][]

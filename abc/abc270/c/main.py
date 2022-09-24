@@ -17,7 +17,11 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
-5
+5 2 5
+1 2
+1 3
+3 4
+3 5
 
 """
 sys.stdin = io.StringIO(_INPUT)
@@ -31,12 +35,32 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
-N = INT()
+N,X,Y = MAP()
+G = [[] for _ in range(N)]
+X,Y = X-1,Y-1
+for _ in range(N-1):
+    u,v = MAP()
+    u,v = u-1,v-1
+    G[u].append(v)
+    G[v].append(u)
+    
+dist = [-1]*N
+dist[X] = 0
+que = deque()
+que.append(X)
+while que:
+    now = que.popleft()
+    for nxt in G[now]:
+        if dist[nxt]==-1:
+            dist[nxt] = dist[now] + 1
+            que.append(nxt)
+now = Y
 ans = []
-for bits in product([4,7],repeat=10):
-    bits = list(bits)
-    for i in range(10):
-        bits[i] = str(bits[i])
-    tmp = "".join(bits)
-    ans.append(int(tmp))
-print(ans[N-1])
+while now!=X:
+    ans.append(now+1)
+    for nxt in G[now]:
+        if dist[nxt]+1==dist[now]:
+            now = nxt
+ans.append(now+1)
+ans.reverse()
+print(*ans)

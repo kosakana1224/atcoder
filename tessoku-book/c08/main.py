@@ -29,3 +29,8 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
+N = INT()
+ST = []
+for _ in range(N):
+    s,t = input().split()
+    s,t = s,t
