@@ -17,11 +17,21 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
+6 7
+1 2 15
+1 4 20
+2 3 65
+2 5 4
+3 6 50
+4 5 30
+5 6 8
+
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
+・ダイクストラした後、後ろから経路復元しました
 
 <キーワード>
 
@@ -29,3 +39,50 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
+N,M = MAP()
+G = [[] for _ in range(N)]
+for _ in range(M):
+    a,b,c = MAP()
+    a,b = a-1,b-1
+    G[a].append([b,c])
+    G[b].append([a,c])
+
+def dijkstra(G,start):
+  """
+  ダイクストラ法(優先度付きキュー使用)
+  from heapq import heappop,heappushの使用を忘れずに！
+  引数：グラフ（重み付き）、スタート地点
+  返り値：頂点の個数分の配列を返し、スタートから配列のindexまでの最短距離を求めることが出来る
+  """
+  N = len(G)
+  #距離の管理
+  INF = float('inf')
+  dist = [INF]*N #スタート地点以外の値は∞で初期化  
+  #スタート地点の重み（距離）
+  dist[start] = 0 #スタートは0で初期化
+  pq = [(0,start)] #ヒープには(その頂点へのコスト：頂点)の情報が入っている
+  while pq:
+    #ヒープから取り出し
+    cost,v = heappop(pq)
+    if dist[v] != cost: continue
+    #最もコストが小さい頂点を探す
+    for v,d in G[v]:#G[u]にはつながっている頂点番号とそこへのコストが入っている
+      new_cost = cost + d
+      #更新条件
+      if dist[v] > new_cost: 
+        dist[v] = new_cost
+        heappush(pq,(new_cost,v)) #pqに(new_cost,v)
+  return dist
+
+dist = dijkstra(G,0)
+now = N-1
+ans = []
+while now!=0:
+    ans.append(now+1)
+    for nxt,cost in G[now]:
+        if dist[nxt]+cost==dist[now]:
+            now = nxt
+ans.append(1)
+ans.reverse()
+print(*ans)
+
