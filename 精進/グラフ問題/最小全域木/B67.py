@@ -32,21 +32,9 @@ _INPUT = """\
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
-<考察>
-・最小全域木に関する問題
-・最小全域木のアルゴリズムはそんなに難しくない
-
-<キーワード>
-・クラスカル法
-
-<ポイント>
-・クラスカル法のアルゴリズム
-全ての辺集合Eをコストが小さい順にソート
-for 辺 in E:
-    if 構築済みの辺集合に新たに加えても閉路を作らない:
-        グラフを結合(unite)
-return 全域木の辺のコストの和(最小)
-
+最大全域木
+クラスカル法のアルゴリズムはそこまで難しくないです
+辺のコストが大きい順にソートした後に接続されてない辺をunionfindしていくだけ。
 """
 #--------------------------------------------------------------
 from typing import List
@@ -110,7 +98,7 @@ class UnionFind:
         return self.__group_count  
 N,M = MAP()
 ES = [LIST() for _ in range(M)]
-ES.sort(key=lambda x:x[2])
+ES.sort(reverse=True,key=lambda x:x[2])
 uf = UnionFind(N+1)
 ans = 0
 for u,v,cost in ES:
@@ -118,5 +106,3 @@ for u,v,cost in ES:
         uf.unite(u,v)
         ans += cost
 print(ans)
-        
-        

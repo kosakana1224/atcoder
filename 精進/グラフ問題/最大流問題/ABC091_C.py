@@ -66,6 +66,7 @@ class Dinic:
             self.links[to][rev][0] += d
             return d
         return 0
+    
     #最大流を求める
     def max_flow(self, s, t):
         flow = 0

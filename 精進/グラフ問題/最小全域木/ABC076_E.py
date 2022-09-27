@@ -93,6 +93,7 @@ class UnionFind:
     def group_count(self) -> int:
         """連結成分の数を取得 O(1)"""
         return self.__group_count  
+    
 N = INT()
 G = []
 for i in range(N):

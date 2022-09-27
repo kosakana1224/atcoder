@@ -54,6 +54,7 @@ while que:
         if dist[nxt]==-1:
             dist[nxt] = dist[now] + 1
             que.append(nxt)
+print(dist)
 now = Y
 ans = []
 while now!=X:

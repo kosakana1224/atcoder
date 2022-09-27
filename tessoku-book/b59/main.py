@@ -29,3 +29,33 @@ sys.stdin = io.StringIO(_INPUT)
 
 """
 #--------------------------------------------------------------
+#転倒数を高速に求めることができる関数
+def tentousu(A):#A:list
+    class Bit:
+        def __init__(self, n):
+            self.size = n
+            self.tree = [0]*(n+1)
+        def sum(self, i):
+            # [0, i) の要素の総和を返す
+            if not (0 <= i <= self.size): raise ValueError("error!")
+            s = 0
+            while i>0:
+                s += self.tree[i]
+                i -= i & -i
+            return s
+        def add(self, i, x):
+            if not (0 <= i < self.size): raise ValueError("error!")
+            i += 1
+            while i <= self.size:
+                self.tree[i] += x
+                i += i & -i 
+    bit = Bit(max(A)+1)
+    ans = 0
+    for i, a in enumerate(A):
+        ans += i - bit.sum(a+1)
+        bit.add(a, 1)
+    return ans
+N = INT()
+A = LIST()
+print(tentousu(A))
+

@@ -36,7 +36,6 @@ sys.stdin = io.StringIO(_INPUT)
 ・法則性があるかもしれないけどよくわからん
 ・ダブリング使えるかも
 ・O(1)orO(logN)で求めたい->数学解かダブリングぐらいしか候補がない
-
 <ポイント>
 ・ダブリングでした
 https://github.com/E869120/kyopro-tessoku/blob/main/editorial/chap08/chap08.pdf
@@ -66,7 +65,7 @@ N,K = MAP()
 dp = [[0]*(N+1) for _ in range(50)]
 #整数iから1回操作した後の整数をdp[0][i]
 for i in range(1,N+1):
-    dp[0][i] = i-(intketasum(i))
+    dp[0][i] = i- (intketasum(i))
 for k in range(1,50):
     for now in range(1,N+1):
         dp[k][now] = dp[k-1][dp[k-1][now]]
