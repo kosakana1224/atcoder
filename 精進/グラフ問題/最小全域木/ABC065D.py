@@ -26,11 +26,13 @@ _INPUT = """\
 sys.stdin = io.StringIO(_INPUT)
 ######################################################
 """
-クラスカル法：最小全域木を求める
+<ポイント>
+・クラスカル法：最小全域木を求める
 (最小全域木：重み付き無向グラフからコストを最小化して作られた木)
-
-全ての辺を結ぶとO(N^2)でTLE
+・全ての辺を結ぶとO(N^2)でTLE
 →隣り合うx,y座標同士で連結すればO(N)
+・辺のコストでソートしてその辺のお互いの頂点がつながっていないならUnionFind
+・最小全域木は辺の持ち方を工夫するタイプの問題が多いかも?
 """
 ######################################################
 from typing import List
@@ -108,6 +110,8 @@ G.sort(key=lambda x:x[2])
 for i in range(N-1):
     ES.append((abs(G[i][2]-G[i+1][2]),G[i][0],G[i+1][0]))
 
+#ES:(辺の重み,u,v)の順に辺を管理しておいて,コストが小さい順にソートして
+#UnionFindすることを考える
 def kruskal():
     ES.sort()    # 辺のコストが小さい順にソートする
     UFT = UnionFind(N)    # Union-Findの初期化
@@ -118,7 +122,6 @@ def kruskal():
             UFT.unite(e[1], e[2])
             res += e[0]
     return res
-
 res = kruskal()
 print(res)
 

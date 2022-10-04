@@ -4,7 +4,7 @@ import sys
 from collections import deque,defaultdict
 from heapq import heappush,heappop 
 from itertools import product,combinations,accumulate
-from bisect import bisect_right,bisect_left 
+from bisect import bisect_right,bisect_left
 def input(): return sys.stdin.readline().strip()
 def INT(): return int(input())
 def MAP(): return map(int,input().split())
@@ -21,9 +21,6 @@ _INPUT = """\
 1 4
 2 3
 5 7
-
-
-
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
@@ -62,6 +59,7 @@ else:
 
 now = S
 ans = ""
+"""
 while now!=0:
     for i in range(1,N+1)[::-1]:
         for s in range(S+1)[::-1]:
@@ -73,6 +71,15 @@ while now!=0:
                 ans += "T"
                 now -= AB[i-1][1]
                 break
+"""
+for i in range(N-1,-1,-1):
+    a,b = AB[i]
+    if dp[i][now-a]:
+        now -= a
+        ans += "H"
+    else:
+        now -= b
+        ans += "T"
 print(ans[::-1])
 
 
