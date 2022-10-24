@@ -42,7 +42,7 @@ while que:
     nowy,nowx = que.popleft()
     #ちょうどルートMであるマスを列挙するかつ未探索だったら
     #YについてはルートMの範囲のみを調べればよく
-    for x in range(-N,N+1):
+    for x in range(0,N+1):
         y2 = M-x**2
         if y2<0:
             continue
