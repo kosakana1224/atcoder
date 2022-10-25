@@ -22,28 +22,23 @@ sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
 """
 <考察>
-・奇数回目のときx軸方向、偶数回目の時y軸方向に移動することができる
-・x,yの座標方面だけ考えれば良い??
+・循環セールスマン問題っぽい
+N個の街は全て通る+M個の宝箱を取るかもしれないので最大でN+M=17の階乗
+->これはこれはいわゆるbitDP
 
 <キーワード>
-
+bitDP
+https://www.youtube.com/watch?v=Oc1JP9XmIsU
 <ポイント>
 
 """
 #--------------------------------------------------------------
-N,x,y = MAP()
-A = LIST()
-xArray = []
-yArray = []
+N,M = MAP()
+XY = [LIST() for _ in range(N)]
+PQ = [LIST() for _ in range(M)]
+dp = [[INF]*(N+M) for _ in range(2**(N+M))]
 
-for i in range(N):
-    if i%2==0:
-        xArray.append(A[i])
-    else:
-        yArray.append(A[i])
 
-sx,sy = 0,0
-for dx in xArray:
-    
+
 
 
