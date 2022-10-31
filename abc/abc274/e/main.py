@@ -17,6 +17,10 @@ dirc = [(0,1),(0,-1),(1,0),(-1,0)]
 #mod = 998244353
 #--------------------------------------------------------------
 _INPUT = """\
+2 1
+1 1
+0 1
+1 0
 """
 sys.stdin = io.StringIO(_INPUT)
 #--------------------------------------------------------------
@@ -30,13 +34,31 @@ N個の街は全て通る+M個の宝箱を取るかもしれないので最大�
 bitDP
 https://www.youtube.com/watch?v=Oc1JP9XmIsU
 <ポイント>
+わかりやすそうなの
+https://atcoder.jp/contests/abc274/submissions/35963948
 
 """
 #--------------------------------------------------------------
 N,M = MAP()
-XY = [LIST() for _ in range(N)]
-PQ = [LIST() for _ in range(M)]
-dp = [[INF]*(N+M) for _ in range(2**(N+M))]
+XY = [LIST() for _ in range(N+M)]
+def f(i,j):
+    return math.sqrt((XY[i][0]-XY[j][0])**2+(XY[i][1]-XY[j][1])**2)
+#mの個数をそれぞれの場合で調べる
+ans = INF
+for m in range(M+1):
+    dp = [[INF]*(N+m) for _ in range(2**(N+m))]
+    dp[0][0] = 0
+    for S in range(2**(N+m)):
+        for v in range(N+m):
+            if (S>>v & 1) == 0 and S!=0:#S=0の場合は例外?
+                continue
+            for u in range(N+m):
+                if (S>>u & 1)==0:
+                    dp[S|(1<<u)][u] = min(dp[S|(1<<u)][u],dp[S][v]+f(v,u))
+    ans = min(ans,dp[2**(N+m)-1][0])
+    print(dp[2**(N+m)-1][0])
+print(ans)
+
 
 
 
